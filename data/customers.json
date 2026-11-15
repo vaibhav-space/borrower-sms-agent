@@ -5,7 +5,7 @@
     "phone": "+15551234567",
     "balance": 1450,
     "currency": "USD",
-    "isOptedOut": true
+    "isOptedOut": false
   },
   {
     "id": "cust_002",

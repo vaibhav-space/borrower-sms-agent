@@ -1,7 +1,16 @@
-import { SMSAgent, CustomerRepository, FakeLLMClient, RealLLMClient } from './index.js';
+import { readFile } from 'node:fs/promises';
+import {
+  SMSAgent,
+  CustomerRepository,
+  FakeLLMClient,
+  RealLLMClient,
+  CustomerRecord
+} from './index.js';
 
 async function runDemo(): Promise<void> {
-  const repo = new CustomerRepository({ filePath: 'data/customers.json' });
+  const raw = await readFile('data/customers.json', 'utf-8');
+  const customers: CustomerRecord[] = JSON.parse(raw);
+  const repo = new CustomerRepository({ initialCustomers: customers });
 
   // ---------------------------------------------------------------------------
   // Case 1: Inbound "STOP" -> Hard opt-out rule, calls markOptOut, sends nothing else

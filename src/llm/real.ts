@@ -103,7 +103,8 @@ export class RealLLMClient implements ILLMClient {
       data.candidates[0]?.content?.parts?.[0]?.text
     ) {
       const text = data.candidates[0].content.parts[0].text;
-      const parsed: unknown = JSON.parse(text);
+      const cleanText = text.replace(/^```json\s*/i, '').replace(/^```\s*/, '').replace(/```\s*$/, '').trim();
+      const parsed: unknown = JSON.parse(cleanText);
       if (
         typeof parsed === 'object' &&
         parsed !== null &&
@@ -168,7 +169,8 @@ export class RealLLMClient implements ILLMClient {
       data.choices[0]?.message?.content
     ) {
       const text = data.choices[0].message.content;
-      const parsed: unknown = JSON.parse(text);
+      const cleanText = text.replace(/^```json\s*/i, '').replace(/^```\s*/, '').replace(/```\s*$/, '').trim();
+      const parsed: unknown = JSON.parse(cleanText);
       if (
         typeof parsed === 'object' &&
         parsed !== null &&
