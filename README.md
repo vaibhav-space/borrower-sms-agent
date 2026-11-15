@@ -31,7 +31,13 @@ This system guarantees safety by enforcing **every rule in deterministic code, n
 ### Visual Pipeline
 
 <p align="center">
-  <img src="docs/architecture.svg" alt="Borrower Inbound SMS Processing Pipeline Architecture" width="100%" />
+  <a href="https://raw.githubusercontent.com/vaibhav-space/borrower-sms-agent/main/docs/architecture.svg" target="_blank" rel="noopener noreferrer">
+    <img src="docs/architecture.svg" alt="Borrower Inbound SMS Processing Pipeline Architecture" width="100%" />
+  </a>
+  <br />
+  <a href="https://raw.githubusercontent.com/vaibhav-space/borrower-sms-agent/main/docs/architecture.svg" target="_blank" rel="noopener noreferrer">
+    <b>🔍 Click diagram or click here to view full screen in a new tab</b>
+  </a>
 </p>
 
 ```
