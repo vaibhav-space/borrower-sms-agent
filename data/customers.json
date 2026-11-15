@@ -1,0 +1,26 @@
+[
+  {
+    "id": "cust_001",
+    "name": "Sarah Connor",
+    "phone": "+15551234567",
+    "balance": 1450,
+    "currency": "USD",
+    "isOptedOut": true
+  },
+  {
+    "id": "cust_002",
+    "name": "John Doe",
+    "phone": "+15552345678",
+    "balance": 0,
+    "currency": "USD",
+    "isOptedOut": false
+  },
+  {
+    "id": "cust_003",
+    "name": "Alex Mercer",
+    "phone": "+15553456789",
+    "balance": 8320.5,
+    "currency": "USD",
+    "isOptedOut": true
+  }
+]
