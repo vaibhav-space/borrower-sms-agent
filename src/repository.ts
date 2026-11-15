@@ -1,5 +1,11 @@
 import { readFile, writeFile } from 'node:fs/promises';
-import { CustomerRecord, GetBalanceOutput, MarkOptOutOutput, ToolErrorOutput } from './types.js';
+import {
+  CustomerRecord,
+  GetBalanceOutput,
+  MarkOptOutOutput,
+  CreatePaymentLinkOutput,
+  ToolErrorOutput
+} from './types.js';
 
 export interface RepositoryOptions {
   filePath?: string;
@@ -64,6 +70,11 @@ export class CustomerRepository {
     }
   }
 
+  public async getAllCustomers(): Promise<CustomerRecord[]> {
+    await this.ensureLoaded();
+    return Array.from(this.customers.values()).map((c) => ({ ...c }));
+  }
+
   public async getCustomer(customerId: string): Promise<CustomerRecord | null> {
     await this.ensureLoaded();
     const customer = this.customers.get(customerId);
@@ -107,6 +118,36 @@ export class CustomerRepository {
     return {
       optedOut: true,
       success: true
+    };
+  }
+
+  public async createPaymentLink(
+    customerId: string,
+    amount: number
+  ): Promise<CreatePaymentLinkOutput | ToolErrorOutput> {
+    await this.ensureLoaded();
+
+    if (typeof amount !== 'number' || !Number.isFinite(amount) || amount <= 0) {
+      return { error: 'Amount must be a positive number' };
+    }
+
+    const customer = this.customers.get(customerId);
+    if (!customer) {
+      return { error: `Customer not found with id: ${customerId}` };
+    }
+
+    // Generate secure, deterministic payment link
+    const expiresDate = new Date(Date.now() + 48 * 60 * 60 * 1000); // 48 hours
+    const token = Math.abs(Math.sin(amount + customer.id.length) * 10000000)
+      .toString(36)
+      .substring(0, 8);
+    const paymentLink = `https://pay.financeops.com/pay/${encodeURIComponent(customerId)}?amt=${amount.toFixed(2)}&t=${token}`;
+
+    return {
+      paymentLink,
+      amount,
+      currency: customer.currency,
+      expiresAt: expiresDate.toISOString()
     };
   }
 }

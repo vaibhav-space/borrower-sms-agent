@@ -21,36 +21,76 @@ async function runDemo(): Promise<void> {
     receivedAt: '2026-11-15T14:30:00Z',
     customerTimezone: 'America/New_York'
   });
-
   console.log('Result:\n', JSON.stringify(stopResult, null, 2));
 
   // ---------------------------------------------------------------------------
-  // Case 2: Inbound Balance Inquiry -> Fake LLM drafts reply & calls getBalance
+  // Case 2: Inbound Balance Inquiry -> Model drafts reply & calls getBalance
   // ---------------------------------------------------------------------------
   console.log('\n================================================================');
   console.log('CASE 2: Inbound Balance Inquiry (Model Assisted)');
   console.log('================================================================');
 
-  const inquiryLLM = new FakeLLMClient({
+  const balanceLLM = new FakeLLMClient({
     reply: 'Hello John, your current balance is $0.00.',
     action: 'send',
     reason: 'Customer requested loan balance, retrieved via getBalance tool.',
     toolCallsToExecute: [{ tool: 'getBalance', customerId: 'cust_002' }]
   });
 
-  const balanceAgent = new SMSAgent({
-    repository: repo,
-    llmClient: inquiryLLM
-  });
-
-  const inquiryResult = await balanceAgent.processInboundSMS({
+  const balanceAgent = new SMSAgent({ repository: repo, llmClient: balanceLLM });
+  const balanceResult = await balanceAgent.processInboundSMS({
     customerId: 'cust_002',
     message: 'Hi, what is my remaining balance?',
-    receivedAt: '2026-11-15T15:00:00Z', // 10:00 AM EST (within 8am-9pm window)
-    customerTimezone: 'America/New_York'
+    receivedAt: '2026-11-15T15:00:00Z',
+    customerTimezone: 'America/New_York',
+    isFirstMessage: true
+  });
+  console.log('Result:\n', JSON.stringify(balanceResult, null, 2));
+
+  // ---------------------------------------------------------------------------
+  // Case 3: Inbound Payment Link Request -> Tool createPaymentLink
+  // ---------------------------------------------------------------------------
+  console.log('\n================================================================');
+  console.log('CASE 3: Inbound Payment Link Request (createPaymentLink)');
+  console.log('================================================================');
+
+  const paymentLLM = new FakeLLMClient({
+    reply: 'Here is your link to pay $50.00: https://pay.financeops.com/pay/cust_002',
+    action: 'send',
+    reason: 'Payment link requested and generated.',
+    toolCallsToExecute: [
+      { tool: 'createPaymentLink', customerId: 'cust_002', amount: 50 }
+    ]
   });
 
-  console.log('Result:\n', JSON.stringify(inquiryResult, null, 2));
+  const paymentAgent = new SMSAgent({ repository: repo, llmClient: paymentLLM });
+  const paymentResult = await paymentAgent.processInboundSMS({
+    customerId: 'cust_002',
+    message: 'Can I get a link to pay $50?',
+    receivedAt: '2026-11-15T15:00:00Z',
+    customerTimezone: 'America/New_York',
+    isFirstMessage: false
+  });
+  console.log('Result:\n', JSON.stringify(paymentResult, null, 2));
+
+  // ---------------------------------------------------------------------------
+  // Case 4: Inbound Dispute -> In-Code Rule routes to human handoff
+  // ---------------------------------------------------------------------------
+  console.log('\n================================================================');
+  console.log('CASE 4: Inbound Borrower Dispute (In-Code Rule: Handoff)');
+  console.log('================================================================');
+
+  const disputeAgent = new SMSAgent({
+    repository: repo,
+    llmClient: new FakeLLMClient()
+  });
+  const disputeResult = await disputeAgent.processInboundSMS({
+    customerId: 'cust_001',
+    message: 'I dispute this debt. I already paid this in full last week.',
+    receivedAt: '2026-11-15T15:00:00Z',
+    customerTimezone: 'America/New_York'
+  });
+  console.log('Result:\n', JSON.stringify(disputeResult, null, 2));
 }
 
 runDemo().catch((err: unknown) => {

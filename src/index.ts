@@ -3,5 +3,7 @@ export * from './schemas.js';
 export * from './compliance.js';
 export * from './repository.js';
 export * from './agent.js';
+export * from './config/compliance.config.js';
+export * from './tools/registry.js';
 export * from './llm/interface.js';
 export * from './llm/fake.js';

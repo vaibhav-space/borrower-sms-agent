@@ -6,26 +6,28 @@ export interface LLMMessage {
 }
 
 export interface LLMToolDefinition {
-  name: 'getBalance' | 'markOptOut';
+  name: 'getBalance' | 'markOptOut' | 'createPaymentLink';
   description: string;
+  parameters?: Record<string, string> | undefined;
+}
+
+export interface LLMToolCallProposal {
+  tool: 'getBalance' | 'markOptOut' | 'createPaymentLink';
+  customerId: string;
+  amount?: number | undefined;
 }
 
 export interface LLMRequest {
   systemPrompt: string;
   messages: LLMMessage[];
-  availableTools?: LLMToolDefinition[];
-}
-
-export interface LLMToolCallProposal {
-  tool: 'getBalance' | 'markOptOut';
-  customerId: string;
+  availableTools?: LLMToolDefinition[] | undefined;
 }
 
 export interface LLMResponse {
   reply: string;
   action: AgentAction;
   reason: string;
-  toolCallsToExecute?: LLMToolCallProposal[];
+  toolCallsToExecute?: LLMToolCallProposal[] | undefined;
 }
 
 export interface ILLMClient {

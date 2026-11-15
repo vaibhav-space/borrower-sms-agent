@@ -4,7 +4,8 @@ export const InboundSMSSchema = z.object({
   customerId: z.string().min(1, 'customerId is required'),
   message: z.string(),
   receivedAt: z.string().min(1, 'receivedAt is required'),
-  customerTimezone: z.string().min(1, 'customerTimezone is required')
+  customerTimezone: z.string().min(1, 'customerTimezone is required'),
+  isFirstMessage: z.boolean().optional()
 });
 
 export const ActionEnum = z.enum(['send', 'hold', 'handoff']);
@@ -19,18 +20,27 @@ export const MarkOptOutOutputSchema = z.object({
   success: z.boolean()
 });
 
+export const CreatePaymentLinkOutputSchema = z.object({
+  paymentLink: z.string().url(),
+  amount: z.number().positive(),
+  currency: z.string(),
+  expiresAt: z.string().datetime()
+});
+
 export const ToolErrorOutputSchema = z.object({
   error: z.string()
 });
 
 export const ToolCallRecordSchema = z.object({
-  tool: z.enum(['getBalance', 'markOptOut']),
+  tool: z.enum(['getBalance', 'markOptOut', 'createPaymentLink']),
   input: z.object({
-    customerId: z.string()
+    customerId: z.string(),
+    amount: z.number().optional()
   }),
   output: z.union([
     GetBalanceOutputSchema,
     MarkOptOutOutputSchema,
+    CreatePaymentLinkOutputSchema,
     ToolErrorOutputSchema
   ])
 });

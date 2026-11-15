@@ -1,11 +1,13 @@
 {
   "name": "inbound-sms-agent",
   "version": "1.0.0",
-  "description": "Borrower Inbound SMS Response Agent",
+  "description": "Borrower Inbound SMS Collections & Servicing Agent",
   "type": "module",
   "scripts": {
     "typecheck": "tsc --noEmit",
     "test": "tsx --test test/agent.test.ts",
+    "eval": "tsx --test test/eval.test.ts",
+    "test:all": "tsx --test test/*.test.ts",
     "build": "tsc",
     "demo": "tsx src/demo.ts"
   },
