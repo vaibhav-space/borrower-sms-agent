@@ -185,10 +185,25 @@ When `GEMINI_API_KEY` or `OPENAI_API_KEY` is detected in the environment, `npm r
 
 ## 7. How AI Was Used & Steering Log
 
-AI was utilized as an accelerated coding partner and pair programmer. Rigorous human verification was applied throughout:
+AI was utilized as an accelerated pair programmer under strict human engineering direction. The complete prompt sequence, architectural rationales, and oversight decisions are documented in [docs/ai-prompts.md](docs/ai-prompts.md).
 
-1. **Where the AI Made Mistakes & How I Caught It**:
-   - *Issue 1 (Node.js ESM eval execution)*: The AI initially suggested `npx tsx -e '...'` for interactive testing. When executed in terminal, Node's eval defaulted to CommonJS, causing `Top-level await is not supported with the "cjs" output format`. I caught this in the terminal, identified that `eval` required `--input-type=module`, and instructed the AI to provide a dedicated, structured `npm run demo` script instead.
-   - *Issue 2 (TypeScript exactOptionalPropertyTypes)*: The AI declared optional properties (`handler?: MockHandler`), which failed compilation under `"exactOptionalPropertyTypes": true` when assigned `undefined`. I caught this via `npm run typecheck` and enforced `MockHandler | undefined`.
-   - *Issue 3 (First-Reply Sanitization)*: The AI initially considered regex-stripping amounts (`$1,450.00` -> `""`), which produced ungrammatical sentences (`"Your balance is  and due today"`). I directed the AI to replace unprompted debt disclosures with a clean, pre-approved customer service greeting template instead.
-   - *Issue 4 (Eval Failure Verification)*: The prompt required proving that *"the eval must fail when a rule breaks"*. The AI initially only wrote passing test cases. I directed the addition of **E10 Meta-Verification**, which feeds intentionally flawed responses into the eval harness to prove it fails when a rule breaks.
+### 7.1 Engineering Workflow & Prompt Progression
+The development lifecycle strictly followed a plan-first engineering loop:
+1. **Contract-First Scaffolding**: Schema validation (`InboundSMSSchema`, `AgentOutputSchema`), zero `any`, and planning gate.
+2. **Adversarial Plan Review**: Independent principal engineer review challenging failure modes before code.
+3. **Take-Home Modularity Mandate**: Open-closed `ToolRegistry` and decoupled `compliance.config.ts`.
+4. **Deterministic In-Code Enforcement**: Hard TypeScript interceptors for TCPA quiet hours, PII scanner, and dispute routing.
+5. **Adversarial Eval Suite & Meta-Verification**: 10 scenarios including jailbreaks, plus mathematical proof that the eval fails when a rule breaks.
+6. **Pre-Commit Audit & Visual Architecture**: Independent diff inspection and editorial [architecture.svg](docs/architecture.svg).
+
+*Full prompt texts and engineering rationales are cataloged in [docs/ai-prompts.md](docs/ai-prompts.md).*
+
+### 7.2 Where the AI Made Mistakes & How I Caught It
+Rigorous human verification was applied throughout the build:
+
+1. **Ungrammatical Regex Stripping**: The AI initially attempted to enforce the first-reply rule by regex-removing dollar amounts (`$1,450.00` -> `""`), producing broken grammar (`"Your balance is  and due today"`). I caught this in test diffs and directed the AI to substitute a clean, pre-approved customer service greeting template instead.
+2. **Passive Eval Assertions**: The AI initially wrote an eval suite that only checked positive passes, missing the requirement that *"the eval must fail when a rule breaks"*. I caught this in review and mandated **E10 Meta-Verification**, which intentionally passes corrupted outputs through `assertComplianceRules` to prove it throws on violation.
+3. **Node.js ESM CLI Execution Failure**: The AI suggested using `npx tsx -e '...'` for interactive demos, which crashed because Node's eval defaults to CommonJS (`Top-level await is not supported with the "cjs" output format`). I identified the runtime mismatch and directed the creation of a standalone `src/demo.ts` with an `npm run demo` script.
+4. **TypeScript Strictness**: The AI assigned `undefined` to optional fields (`handler?: MockHandler`), triggering `TS2412 / TS2375` under `"exactOptionalPropertyTypes": true`. Caught via `npm run typecheck` and resolved with explicit union types (`MockHandler | undefined`).
+5. **SVG Path Rendering Glitches**: The AI generated SVG connector paths without `fill="none"`, causing WebKit/Chrome to render large solid black triangles over the diagram. I caught this upon inspecting the visual render in-browser and enforced `fill="none"` and `stroke-linejoin="round"`.
+6. **Stateful Demo Pollution**: The AI's initial `demo.ts` mutated `data/customers.json` on disk during Case 1 (`STOP`), leaving `cust_001` opted out. Caught via `git status` and resolved by running demo fixtures in-memory to ensure idempotency.
