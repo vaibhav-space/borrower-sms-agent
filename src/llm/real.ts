@@ -52,7 +52,7 @@ export class RealLLMClient implements ILLMClient {
       (process.env.GEMINI_API_KEY ? 'gemini' : 'openai');
     this.model =
       options?.model ||
-      (this.provider === 'gemini' ? 'gemini-1.5-flash' : 'gpt-4o-mini');
+      (this.provider === 'gemini' ? 'gemini-3.5-flash' : 'gpt-4o-mini');
     this.timeoutMs = options?.timeoutMs || 10000;
   }
 

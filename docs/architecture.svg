@@ -1,0 +1,295 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 890" width="100%" height="100%" style="background-color: #f8fafc; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <!-- Background Grid -->
+    <pattern id="dot-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1" fill="#e2e8f0" />
+    </pattern>
+
+    <!-- Card Elevation Shadows -->
+    <filter id="shadow-sm" x="-10%" y="-10%" width="120%" height="125%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="1" stdDeviation="3" flood-color="#0f172a" flood-opacity="0.04" />
+      <feDropShadow dx="0" dy="1" stdDeviation="1" flood-color="#0f172a" flood-opacity="0.03" />
+    </filter>
+    <filter id="shadow-md" x="-10%" y="-10%" width="120%" height="125%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="#0f172a" flood-opacity="0.06" />
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#0f172a" flood-opacity="0.04" />
+    </filter>
+
+    <!-- Connector Arrow Markers -->
+    <marker id="arrow-slate" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#94a3b8" />
+    </marker>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#2563eb" />
+    </marker>
+    <marker id="arrow-emerald" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1.5 L 7 5 L 0 8.5 z" fill="#059669" />
+    </marker>
+  </defs>
+
+  <!-- Canvas Surface -->
+  <rect width="100%" height="100%" fill="#f8fafc" />
+  <rect width="100%" height="100%" fill="url(#dot-grid)" />
+
+  <!-- ==================== HEADER ==================== -->
+  <g transform="translate(60, 40)">
+    <rect x="0" y="0" width="168" height="24" rx="4" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1" />
+    <text x="10" y="16" fill="#1d4ed8" font-size="11" font-weight="700" letter-spacing="0.8">SYSTEM ARCHITECTURE</text>
+    
+    <text x="0" y="58" fill="#0f172a" font-size="26" font-weight="800" letter-spacing="-0.5">Borrower Inbound SMS Servicing Pipeline</text>
+    <text x="0" y="82" fill="#64748b" font-size="14">Multi-Tenant Isolation • Deterministic TCPA &amp; FDCPA Guardrails • Decoupled Tool Bus</text>
+  </g>
+
+  <!-- ==================== STAGE 1: INGESTION ==================== -->
+  <g transform="translate(60, 146)">
+    <rect x="0" y="0" width="270" height="495" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#shadow-sm)" />
+    
+    <!-- Stage Badge -->
+    <rect x="18" y="18" width="72" height="22" rx="4" fill="#f1f5f9" />
+    <text x="26" y="33" fill="#475569" font-size="10" font-weight="700" font-family="monospace">STAGE 01</text>
+    <text x="18" y="62" fill="#0f172a" font-size="16" font-weight="700">Inbound Ingestion</text>
+    <text x="18" y="78" fill="#64748b" font-size="12">Carrier Webhook Payload</text>
+
+    <!-- Visual SMS Message Card -->
+    <g transform="translate(18, 98)">
+      <rect x="0" y="0" width="234" height="152" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+      
+      <!-- Envelope Icon -->
+      <g transform="translate(14, 14)">
+        <rect x="0" y="0" width="24" height="24" rx="12" fill="#dbeafe" />
+        <path d="M 6 8 L 12 12 L 18 8 M 6 8 L 6 16 L 18 16 L 18 8 Z" fill="none" stroke="#1d4ed8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      </g>
+      <text x="46" y="24" fill="#0f172a" font-size="12" font-weight="600">Borrower SMS</text>
+      <text x="46" y="38" fill="#64748b" font-size="10" font-family="monospace">customerId: cust_001</text>
+
+      <!-- Message Content -->
+      <rect x="12" y="52" width="210" height="50" rx="6" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1" />
+      <text x="20" y="72" fill="#1e40af" font-size="11" font-weight="600">"What is my balance?"</text>
+      <text x="20" y="89" fill="#3b82f6" font-size="10">OR: "STOP" / Dispute / Payment Link</text>
+
+      <!-- Timezone Badge -->
+      <rect x="12" y="112" width="210" height="28" rx="4" fill="#ffffff" stroke="#cbd5e1" stroke-width="1" />
+      <text x="20" y="130" fill="#475569" font-size="11">🕒 Timezone: America/New_York</text>
+    </g>
+
+    <!-- Schema Validation Box -->
+    <g transform="translate(18, 264)">
+      <rect x="0" y="0" width="234" height="96" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+      <rect x="12" y="12" width="210" height="22" rx="4" fill="#f1f5f9" />
+      <text x="18" y="27" fill="#334155" font-size="11" font-weight="700" font-family="monospace">InboundSMSSchema.parse()</text>
+      <text x="12" y="54" fill="#059669" font-size="11" font-weight="600">✓ Strict ISO 8601 Timestamp</text>
+      <text x="12" y="70" fill="#059669" font-size="11" font-weight="600">✓ Valid IANA Timezone Name</text>
+      <text x="12" y="86" fill="#dc2626" font-size="11" font-weight="600">✗ Schema Error → Fast Handoff</text>
+    </g>
+
+    <!-- Contract Fields -->
+    <g transform="translate(18, 374)">
+      <rect x="0" y="0" width="234" height="102" rx="8" fill="#faf5ff" stroke="#e9d5ff" stroke-width="1" />
+      <text x="16" y="24" fill="#7e22ce" font-size="12" font-weight="700">Validated Inbound Fields</text>
+      <text x="16" y="44" fill="#6b21a8" font-size="11">• customerId (string)</text>
+      <text x="16" y="60" fill="#6b21a8" font-size="11">• message (string)</text>
+      <text x="16" y="76" fill="#6b21a8" font-size="11">• receivedAt (UTC timestamp)</text>
+      <text x="16" y="92" fill="#6b21a8" font-size="11">• isFirstMessage (optional bool)</text>
+    </g>
+  </g>
+
+  <!-- Connector 1 -> 2 -->
+  <path d="M 330 395 L 358 395" fill="none" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,4" marker-end="url(#arrow-slate)" />
+
+  <!-- ==================== STAGE 2: DETERMINISTIC GATES ==================== -->
+  <g transform="translate(365, 146)">
+    <rect x="0" y="0" width="270" height="495" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#shadow-sm)" />
+    
+    <rect x="18" y="18" width="72" height="22" rx="4" fill="#fef3c7" />
+    <text x="26" y="33" fill="#b45309" font-size="10" font-weight="700" font-family="monospace">STAGE 02</text>
+    <text x="18" y="62" fill="#0f172a" font-size="16" font-weight="700">Deterministic Gates</text>
+    <text x="18" y="78" fill="#64748b" font-size="12">Pre-LLM Zero-Cost Fast Path</text>
+
+    <!-- Gate A: STOP Opt-Out -->
+    <g transform="translate(18, 98)">
+      <rect x="0" y="0" width="234" height="110" rx="8" fill="#fffbeb" stroke="#fde68a" stroke-width="1" />
+      <text x="14" y="24" fill="#92400e" font-size="12" font-weight="700">1. Mandatory STOP Opt-Out</text>
+      <text x="14" y="42" fill="#78350f" font-size="11">Keywords: STOP, CANCEL, QUIT</text>
+      <text x="14" y="58" fill="#78350f" font-size="11">Tool: markOptOut(customerId)</text>
+      <rect x="14" y="70" width="206" height="28" rx="4" fill="#b45309" />
+      <text x="22" y="88" fill="#ffffff" font-size="11" font-weight="700">HALT → action: "hold", reply: ""</text>
+    </g>
+
+    <!-- Gate B: Dispute Escalation -->
+    <g transform="translate(18, 220)">
+      <rect x="0" y="0" width="234" height="118" rx="8" fill="#fff1f2" stroke="#fecdd3" stroke-width="1" />
+      <text x="14" y="24" fill="#be123c" font-size="12" font-weight="700">2. Dispute Escalation Gate</text>
+      <text x="14" y="42" fill="#9f1239" font-size="11">Paid in full, Fraud, Identity Theft</text>
+      <text x="14" y="58" fill="#9f1239" font-size="11">Negation Guard: "no dispute" ✓</text>
+      <rect x="14" y="72" width="206" height="32" rx="4" fill="#be123c" />
+      <text x="24" y="92" fill="#ffffff" font-size="11" font-weight="700">ESCALATE → action: "handoff"</text>
+    </g>
+
+    <!-- Gate C: Prior Opt-Out -->
+    <g transform="translate(18, 350)">
+      <rect x="0" y="0" width="234" height="126" rx="8" fill="#fffbeb" stroke="#fde68a" stroke-width="1" />
+      <text x="14" y="24" fill="#92400e" font-size="12" font-weight="700">3. Prior Opt-Out Guard</text>
+      <text x="14" y="44" fill="#78350f" font-size="11">• Customer exists in repository</text>
+      <text x="14" y="60" fill="#78350f" font-size="11">• Prior opt-out flag check (TCPA)</text>
+      <rect x="14" y="76" width="206" height="32" rx="4" fill="#b45309" />
+      <text x="22" y="96" fill="#ffffff" font-size="11" font-weight="700">SUPPRESS → action: "hold"</text>
+    </g>
+  </g>
+
+  <!-- Connector 2 -> 3 -->
+  <path d="M 635 395 L 663 395" fill="none" stroke="#2563eb" stroke-width="1.5" marker-end="url(#arrow-blue)" />
+
+  <!-- ==================== STAGE 3: MODEL & TOOL BUS ==================== -->
+  <g transform="translate(670, 146)">
+    <rect x="0" y="0" width="270" height="495" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#shadow-sm)" />
+    
+    <rect x="18" y="18" width="72" height="22" rx="4" fill="#dbeafe" />
+    <text x="26" y="33" fill="#1d4ed8" font-size="10" font-weight="700" font-family="monospace">STAGE 03</text>
+    <text x="18" y="62" fill="#0f172a" font-size="16" font-weight="700">Model &amp; Tool Bus</text>
+    <text x="18" y="78" fill="#64748b" font-size="12">Decoupled LLM Contract</text>
+
+    <!-- LLM Contract Card -->
+    <g transform="translate(18, 98)">
+      <rect x="0" y="0" width="234" height="110" rx="8" fill="#f0fdf4" stroke="#bbf7d0" stroke-width="1" />
+      <text x="14" y="24" fill="#166534" font-size="12" font-weight="700">ILLMClient Contract</text>
+      <text x="14" y="44" fill="#15803d" font-size="11">✓ FakeLLMClient (Test Harness)</text>
+      <text x="14" y="60" fill="#15803d" font-size="11">✓ RealLLMClient (Gemini / OpenAI)</text>
+      <rect x="14" y="72" width="206" height="26" rx="4" fill="#166534" />
+      <text x="24" y="89" fill="#ffffff" font-size="11" font-weight="700">Safe Timeout: 10s AbortSignal</text>
+    </g>
+
+    <!-- Tool Registry Card -->
+    <g transform="translate(18, 220)">
+      <rect x="0" y="0" width="234" height="256" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1" />
+      <text x="14" y="22" fill="#0f172a" font-size="12" font-weight="700">Modular ToolRegistry</text>
+      <rect x="14" y="30" width="206" height="22" rx="4" fill="#fee2e2" />
+      <text x="20" y="45" fill="#b91c1c" font-size="10" font-weight="700">🔒 Tenant Boundary: id === borrower</text>
+
+      <!-- Tool 1 -->
+      <g transform="translate(14, 58)">
+        <rect x="0" y="0" width="206" height="40" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+        <text x="12" y="18" fill="#0f172a" font-size="11" font-weight="600">getBalance(customerId)</text>
+        <text x="12" y="32" fill="#64748b" font-size="10">Query account balance &amp; currency</text>
+      </g>
+
+      <!-- Tool 2 -->
+      <g transform="translate(14, 104)">
+        <rect x="0" y="0" width="206" height="40" rx="6" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" />
+        <text x="12" y="18" fill="#0f172a" font-size="11" font-weight="600">markOptOut(customerId)</text>
+        <text x="12" y="32" fill="#64748b" font-size="10">Persist statutory SMS opt-out flag</text>
+      </g>
+
+      <!-- Tool 3 -->
+      <g transform="translate(14, 150)">
+        <rect x="0" y="0" width="206" height="48" rx="6" fill="#ffffff" stroke="#3b82f6" stroke-width="1.5" />
+        <text x="12" y="19" fill="#1d4ed8" font-size="11" font-weight="700">createPaymentLink(id, amount)</text>
+        <text x="12" y="36" fill="#64748b" font-size="10">amount &gt; 0, 48h secure expiration</text>
+      </g>
+
+      <!-- Extensibility Note -->
+      <rect x="14" y="206" width="206" height="38" rx="6" fill="#f1f5f9" />
+      <text x="20" y="222" fill="#475569" font-size="10" font-weight="600">Extensible: registry.register()</text>
+      <text x="20" y="235" fill="#64748b" font-size="9.5">Adding tools requires 0 agent edits</text>
+    </g>
+  </g>
+
+  <!-- Connector 3 -> 4 -->
+  <path d="M 940 395 L 968 395" fill="none" stroke="#2563eb" stroke-width="1.5" marker-end="url(#arrow-blue)" />
+
+  <!-- ==================== STAGE 4: POST-LLM IN-CODE FILTERS ==================== -->
+  <g transform="translate(975, 146)">
+    <rect x="0" y="0" width="285" height="495" rx="12" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5" filter="url(#shadow-sm)" />
+    
+    <rect x="18" y="18" width="72" height="22" rx="4" fill="#fce7f3" />
+    <text x="26" y="33" fill="#be185d" font-size="10" font-weight="700" font-family="monospace">STAGE 04</text>
+    <text x="18" y="62" fill="#0f172a" font-size="16" font-weight="700">In-Code Filters</text>
+    <text x="18" y="78" fill="#64748b" font-size="12">Post-Generation Enforcement</text>
+
+    <!-- Filter 1: Privacy Scanner -->
+    <g transform="translate(18, 98)">
+      <rect x="0" y="0" width="249" height="110" rx="8" fill="#fef2f2" stroke="#fecaca" stroke-width="1" />
+      <text x="14" y="24" fill="#991b1b" font-size="12" font-weight="700">1. Cross-Customer Privacy</text>
+      <text x="14" y="42" fill="#7f1d1d" font-size="11">Scans reply for foreign:</text>
+      <text x="14" y="58" fill="#7f1d1d" font-size="10">• Names, Phones, IDs, Balances</text>
+      <rect x="14" y="70" width="221" height="28" rx="4" fill="#991b1b" />
+      <text x="20" y="88" fill="#ffffff" font-size="10" font-weight="700">Leak → Wipe reply, action: "handoff"</text>
+    </g>
+
+    <!-- Filter 2: First Reply Policy -->
+    <g transform="translate(18, 220)">
+      <rect x="0" y="0" width="249" height="118" rx="8" fill="#eef2ff" stroke="#c7d2fe" stroke-width="1" />
+      <text x="14" y="24" fill="#3730a3" font-size="12" font-weight="700">2. First-Reply Amount Policy</text>
+      <text x="14" y="42" fill="#4338ca" font-size="11">If 1st message &amp; amount not asked:</text>
+      <text x="14" y="58" fill="#4338ca" font-size="10">Suppress unprompted debt balances</text>
+      <rect x="14" y="72" width="221" height="34" rx="4" fill="#4338ca" />
+      <text x="20" y="93" fill="#ffffff" font-size="11" font-weight="700">Replace with Safe Greeting</text>
+    </g>
+
+    <!-- Filter 3: TCPA Quiet Hours -->
+    <g transform="translate(18, 350)">
+      <rect x="0" y="0" width="249" height="126" rx="8" fill="#fffbeb" stroke="#fef08a" stroke-width="1" />
+      <text x="14" y="24" fill="#854d0e" font-size="12" font-weight="700">3. TCPA Quiet Hours Engine</text>
+      <text x="14" y="42" fill="#a16207" font-size="11">8:00 AM – 9:00 PM Borrower Local</text>
+      <text x="14" y="58" fill="#a16207" font-size="10">Evaluated via Intl.DateTimeFormat</text>
+      <rect x="14" y="74" width="221" height="34" rx="4" fill="#a16207" />
+      <text x="20" y="95" fill="#ffffff" font-size="11" font-weight="700">Night → Override to "hold"</text>
+    </g>
+  </g>
+
+  <!-- Clean Centered Convergence Connector: Stage 2, 3, 4 -> Stage 5 -->
+  <g transform="translate(0, 641)">
+    <!-- Central Flow Trunk -->
+    <path d="M 660 0 L 660 64" fill="none" stroke="#059669" stroke-width="2" marker-end="url(#arrow-emerald)" />
+    
+    <!-- Flow Badge Label -->
+    <rect x="530" y="18" width="260" height="24" rx="12" fill="#ecfdf5" stroke="#a7f3d0" stroke-width="1" />
+    <text x="546" y="34" fill="#065f46" font-size="11" font-weight="700">Pipeline Convergence &amp; Serialization</text>
+  </g>
+
+  <!-- ==================== STAGE 5: OUTPUT CONTRACT ==================== -->
+  <g transform="translate(60, 710)">
+    <rect x="0" y="0" width="1200" height="145" rx="12" fill="#ffffff" stroke="#a7f3d0" stroke-width="1.5" filter="url(#shadow-md)" />
+
+    <!-- Stage 05 Header & Eval Trust Badge -->
+    <g transform="translate(24, 18)">
+      <rect x="0" y="0" width="72" height="22" rx="4" fill="#d1fae5" />
+      <text x="8" y="15" fill="#065f46" font-size="10" font-weight="700" font-family="monospace">STAGE 05</text>
+      <text x="84" y="16" fill="#0f172a" font-size="16" font-weight="700">Guaranteed Structured Output Contract (AgentOutputSchema)</text>
+      
+      <!-- Automated Eval Verification Trust Badge -->
+      <g transform="translate(850, -4)">
+        <rect x="0" y="0" width="300" height="24" rx="6" fill="#ecfdf5" stroke="#86efac" stroke-width="1" />
+        <text x="12" y="16" fill="#047857" font-size="10.5" font-weight="700">✓ 10-Scenario Adversarial Eval Verified</text>
+      </g>
+
+      <text x="0" y="38" fill="#64748b" font-size="12">Type-safe JSON schema validated output dispatched to downstream carrier APIs and CRM servicing queues</text>
+    </g>
+
+    <!-- 3 Action Pills -->
+    <g transform="translate(24, 76)">
+      <!-- Action: Send -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="365" height="50" rx="8" fill="#f0fdf4" stroke="#86efac" stroke-width="1" />
+        <circle cx="24" cy="25" r="7" fill="#16a34a" />
+        <text x="42" y="27" fill="#14532d" font-size="13" font-weight="700">action: "send"</text>
+        <text x="156" y="27" fill="#15803d" font-size="12">• Compliant reply drafted</text>
+      </g>
+
+      <!-- Action: Hold -->
+      <g transform="translate(390, 0)">
+        <rect x="0" y="0" width="365" height="50" rx="8" fill="#fffbeb" stroke="#fde047" stroke-width="1" />
+        <circle cx="24" cy="25" r="7" fill="#ca8a04" />
+        <text x="42" y="27" fill="#713f12" font-size="13" font-weight="700">action: "hold"</text>
+        <text x="156" y="27" fill="#854d0e" font-size="12">• Quiet hours or STOP opt-out</text>
+      </g>
+
+      <!-- Action: Handoff -->
+      <g transform="translate(780, 0)">
+        <rect x="0" y="0" width="370" height="50" rx="8" fill="#fff1f2" stroke="#fda4af" stroke-width="1" />
+        <circle cx="24" cy="25" r="7" fill="#e11d48" />
+        <text x="42" y="27" fill="#881337" font-size="13" font-weight="700">action: "handoff"</text>
+        <text x="172" y="27" fill="#9f1239" font-size="12">• Dispute, privacy leak, or error</text>
+      </g>
+    </g>
+  </g>
+</svg>

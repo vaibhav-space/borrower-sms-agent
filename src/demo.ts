@@ -1,4 +1,4 @@
-import { SMSAgent, CustomerRepository, FakeLLMClient } from './index.js';
+import { SMSAgent, CustomerRepository, FakeLLMClient, RealLLMClient } from './index.js';
 
 async function runDemo(): Promise<void> {
   const repo = new CustomerRepository({ filePath: 'data/customers.json' });
@@ -91,6 +91,32 @@ async function runDemo(): Promise<void> {
     customerTimezone: 'America/New_York'
   });
   console.log('Result:\n', JSON.stringify(disputeResult, null, 2));
+
+  // ---------------------------------------------------------------------------
+  // Case 5 (Optional): Live Real Model Run if API key is present
+  // ---------------------------------------------------------------------------
+  const hasApiKey = Boolean(process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY);
+  if (hasApiKey) {
+    console.log('\n================================================================');
+    console.log('CASE 5: Real Model Live Execution (ILLMClient)');
+    console.log('================================================================');
+    try {
+      const realAgent = new SMSAgent({
+        repository: repo,
+        llmClient: new RealLLMClient()
+      });
+      const realResult = await realAgent.processInboundSMS({
+        customerId: 'cust_002',
+        message: 'Hi, can you tell me my balance and send a payment link for $25?',
+        receivedAt: '2026-11-15T15:00:00Z',
+        customerTimezone: 'America/New_York',
+        isFirstMessage: false
+      });
+      console.log('Result from Real LLM:\n', JSON.stringify(realResult, null, 2));
+    } catch (err: unknown) {
+      console.error('Real model run failed:', err);
+    }
+  }
 }
 
 runDemo().catch((err: unknown) => {

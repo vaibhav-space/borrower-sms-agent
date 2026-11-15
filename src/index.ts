@@ -7,3 +7,4 @@ export * from './config/compliance.config.js';
 export * from './tools/registry.js';
 export * from './llm/interface.js';
 export * from './llm/fake.js';
+export * from './llm/real.js';

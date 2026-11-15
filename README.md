@@ -28,6 +28,12 @@ This system guarantees safety by enforcing **every rule in deterministic code, n
    - Compliance keywords and quiet-hour rules are decoupled in [src/config/compliance.config.ts](src/config/compliance.config.ts). New keywords or rules can be added without modifying agent core logic.
    - Tools (`getBalance`, `markOptOut`, `createPaymentLink`) are registered in [src/tools/registry.ts](src/tools/registry.ts). Adding a fourth tool requires zero changes to the agent loop.
 
+### Visual Pipeline
+
+<p align="center">
+  <img src="docs/architecture.svg" alt="Borrower Inbound SMS Processing Pipeline Architecture" width="100%" />
+</p>
+
 ```
                       Inbound SMS Input
                               │
@@ -135,12 +141,14 @@ The model sits behind the `ILLMClient` interface. To run against a live LLM:
 ```bash
 # Using Gemini API:
 export GEMINI_API_KEY="your-gemini-api-key"
+npm run demo
 
 # OR using OpenAI API:
 export OPENAI_API_KEY="your-openai-api-key"
+npm run demo
 ```
 
-The test and evaluation suites pass 100% deterministically using `FakeLLMClient` without requiring an API key.
+When `GEMINI_API_KEY` or `OPENAI_API_KEY` is detected in the environment, `npm run demo` automatically activates Case 5, sending a live query to the provider. The test and evaluation suites pass 100% deterministically using `FakeLLMClient` without requiring an API key.
 
 ---
 
